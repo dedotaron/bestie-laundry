@@ -373,8 +373,8 @@
         }
 
         .transaction-table {
-            width: 150%;
-            font-size: 0.62rem;
+            width: 145%;
+            font-size: 0.75rem;
             border-collapse: collapse;
         }   
 
@@ -387,6 +387,8 @@
 
         .text-right {
             text-align: right;
+            font-size: 0.65rem;
+            
         }
 
         .biaya-grid {
@@ -427,8 +429,8 @@
         }
 
         .belanja-history-table {
-            width: 150%;
-            font-size: 0.65 rem;
+            width: 165%;
+            font-size: 0.75 rem;
             border-collapse: collapse;
             margin-top: 10px;
         }
@@ -1915,9 +1917,9 @@
 
             return `
                     <div class="menu-grid">
-                        <div class="menu-card" data-page="order"><div class="menu-icon">🏬</div><h6>Input Order</h6></div>
+                        <div class="menu-card" data-page="order"><div class="menu-icon">💵</div><h6>Input Order</h6></div>
                         <div class="menu-card" data-page="bayar"><div class="menu-icon">💰</div><h6>Bayar</h6></div>
-                        <div class="menu-card" data-page="lihat"><div class="menu-icon">👀</div><h6>Lihat data</h6></div>
+                        <div class="menu-card" data-page="lihat"><div class="menu-icon">🔍</div><h6>Lihat data</h6></div>
                         <div class="menu-card ${dueCount > 0 ? 'due-alert' : ''}" data-page="jatuh-tempo">
                             <div class="menu-icon">⏰</div>
                             <h6>Jatuh Tempo</h6>
@@ -2016,7 +2018,7 @@
             second: '2-digit' });
             return `
                     <div class="panel">
-                       <div class="panel-title">📝 ORDER MASUK</div>
+                       <div class="panel-title">💵 ORDER MASUK</div>
                         <div class="input-group">                             
                             <input type="text" id="noNota" value="${escapeHtml(orderForm.noNota)}"</div>
                             <div class="small-note" style="margin-top:4px;color:#1e5a7d;"></div>
@@ -2262,7 +2264,7 @@
 
             return `<div class="panel">
         
-                    <div class="panel-title">📋 TOTAL TRANSAKSI (${totalData})</div>        
+                    <div class="panel-title">🔍 TOTAL TRANSAKSI (${totalData})</div>        
                     <div class="small-note" style="margin-bottom:8px;">⬇️ Scroll untuk melihat lebih banyak | Diurutkan berdasarkan No Nota</div>
                     <div class="scrollable-table-container"> 
                         <table class="transaction-table">
