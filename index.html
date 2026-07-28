@@ -1110,7 +1110,7 @@
                     Silakan <strong>restore</strong> dari file backup JSON atau <strong>input</strong> data baru.
                 </p>
                 <div class="modal-actions">
-                    <button class="btn-primary-modal" id="modalBtnPrimary">🗄️ Maintenance</button>
+                    <button class="btn-primary-modal" id="modalBtnPrimary"> ♻️ Maintenance</button>
                     <button class="btn-secondary-modal" id="modalBtnSecondary">✖️ Tutup</button>
                 </div>
             </div>
@@ -1841,7 +1841,7 @@
                         title: 'Database Kosong',
                         subtitle: 'Belum ada data tersimpan',
                         message: 'Silakan <strong>restore</strong> dari file backup JSON di menu <strong>Maintenance</strong> atau <strong>input</strong> data baru.',
-                        btnPrimaryText: '🗄️ Buka Maintenance',
+                        btnPrimaryText: '♻️ Buka Maintenance',
                         btnSecondaryText: '✖️ Tutup',
                         onPrimary: function() {
                             navigateTo('manage');
@@ -1924,9 +1924,9 @@
                             ${dueCount > 0 ? `<span class="badge-due">${dueCount}</span>` : ''}
                         </div>
                         <div class="menu-card" data-page="biaya"><div class="menu-icon">🧺</div><h6>Biaya Masuk</h6></div>
-                        <div class="menu-card" data-page="kirim"><div class="menu-icon">📊</div><h6>Ekspor Data</h6></div>
-                        <div class="menu-card" data-page="edit"><div class="menu-icon">✏️</div><h6>Edit data</h6></div>
-                        <div class="menu-card" data-page="manage"><div class="menu-icon">🗄️</div><h6>Maintenance</h6></div>
+                        <div class="menu-card" data-page="kirim"><div class="menu-icon">🛜</div><h6>Ekspor Data</h6></div>
+                        <div class="menu-card" data-page="edit"><div class="menu-icon">✍️</div><h6>Edit data</h6></div>
+                        <div class="menu-card" data-page="manage"><div class="menu-icon">♻️</div><h6>Maintenance</h6></div>
                     </div>
                     ${isDatabaseEmpty ? `
                     <div class="panel" style="border: 2px dashed #f59e0b; background: #fef9e7; text-align:center; padding:25px 20px;">
@@ -1947,7 +1947,7 @@
                             width: auto;
                             margin: 0 auto;
                             display: inline-block;
-                        ">🗄️ Buka Maintenance</button>
+                        ">♻️ Buka Maintenance</button>
                     </div>
                     ` : `
                     <div class="panel">
@@ -2543,7 +2543,7 @@ function renderJatuhTempo() {
         function renderKirimDataExcel() {
             const isEmpty = transactions.length === 0 && daftarBelanja.length === 0;
             return `<div class="panel">
-                    <div class="panel-title">📎 EKSPOR KE EXCEL</div>
+                    <div class="panel-title"> 🛜 EKSPOR KE EXCEL</div>
                     <p>Download semua transaksi + history belanja bulan ini</p>
                     ${isEmpty ? '<p style="color:#b91c1c;font-weight:600;">⚠️ Belum ada data untuk diekspor</p>' : ''}
                     <button class="btn-excel" id="exportExcelBtn" ${isEmpty ? 'disabled style="opacity:0.5;"' : ''}>📊 Download Laporan Excel</button>
@@ -2644,7 +2644,7 @@ function renderJatuhTempo() {
 
             return `
                     <div class="panel">
-                        <div class="panel-title">✏️ EDIT DATA</div>
+                        <div class="panel-title"> ✍️ EDIT DATA</div>
                         <div class="search-section">
                             <input type="text" id="editSearchInput" placeholder="Cari No Nota / Nama..." />
                             <button id="editSearchBtn">🔍 Cari</button>
@@ -2929,7 +2929,7 @@ function renderJatuhTempo() {
             const statusText = (totalTx === 0 && totalBel === 0) ? '🔴 Kosong - Silakan Restore' : '🟡 Terisi Data';
             return `
                     <div class="panel">
-                        <div class="panel-title">🗄️ MANAGE DATABASE</div>
+                        <div class="panel-title">♻️ MANAGE DATABASE</div>
                         <div class="warning-box">
                             <h3>⚠️ Perhatian!</h3>
                             <p>Jika database kosong, silakan restore dari file backup JSON.</p>
