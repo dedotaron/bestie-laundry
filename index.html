@@ -204,9 +204,13 @@
 
         button.secondary {
             background: #94a3b8;
+            font-weight: 700;
+            
         }
         button.secondary:active {
             background: #64748b;
+            font-weight: 700;
+            
         }
 
         button.btn-danger {
@@ -2030,7 +2034,7 @@
                         <div class="detail-card">Jam Masuk order ----> <small>${nowTime}</small></div>
                         <table class="jasa-table"><thead><tr><th>Jenis Jasa</th><th>Kg</th><th>Rp/Kg</th><th>Subtotal</th></tr></thead>
                         <tbody id="jasaTableBody">${rowsHtml}</tbody></table>
-                        <div class="total-bold">Total----------> : <span id="grandTotalDisplay">${formatRupiah(grandTotal)}</span></div>
+                        <div class="total-bold">Total------------------------------>>> : <span id="grandTotalDisplay">${formatRupiah(grandTotal)}</span></div>
                         <div class="input-group">  
                            <select id="cashBank"> 
                                 <option value="Cash" ${orderForm.cashBank==="Cash"?"selected":""}>Cash</option> 
@@ -2039,7 +2043,7 @@
                         </div>
                         <div class="input-group"><input type="text" placeholder="Keterangan lain" id="keteranganOrder" value="${escapeHtml(orderForm.keterangan)}"></div>
                         <button id="simpanOrderBtn">💾 SIMPAN</button>
-                        <button class="secondary" id="backToMenuBtn">↩️ Kembali</button>
+                        <button class="secondary" id="backToMenuBtn">↩️ RETURN</button>
                     </div>
                 `;
         }
@@ -2175,7 +2179,7 @@
             const belumLunas = transactions.filter(t => t.sisa > 0);
 
             if (belumLunas.length === 0) {
-                return `<div class="panel"><div class="panel-title">💰 BAYAR</div><p>✅ Semua lunas</p><button class="secondary" id="backFromBayar">↩️ Kembali</button></div>`;
+                return `<div class="panel"><div class="panel-title">💰 BAYAR</div><p>✅ Semua lunas</p><button class="secondary" id="backFromBayar">↩️ RETURN</button></div>`;
             }
 
             let list = `<div class="panel-title">💰 Pilih Nota Bayar</div>
@@ -2197,7 +2201,7 @@
             });
 
             list += `</div>
-                    <button class="secondary" id="backFromBayarList">↩️ Kembali</button>
+                    <button class="secondary" id="backFromBayarList">↩️ RETURN</button>
                 </div>`;
 
             return `<div class="panel">${list}</div>`;
@@ -2275,7 +2279,7 @@
                         </table>
                     </div>
                     ${totalData > 5000 ? `<div class="small-note" style="text-align:center;color:#1e5a7d;margin-top:4px;">📌 Menampilkan 5000 data dengan No Nota terkecil dari ${totalData} transaksi</div>` : ''}
-                    <button class="secondary" id="backFromLihat">↩️ Kembali</button>
+                    <button class="secondary" id="backFromLihat">↩️ RETURN</button>
                 </div>`;
         }
 
@@ -2358,7 +2362,7 @@ function renderJatuhTempo() {
                 <div class="info-row"><span class="label">📋 Total Jatuh Tempo :</span><span class="value" style="color:#dc2626;font-weight:700;">${dueTransactions.length} nota</span></div>
             </div>
             ${dueHtml}
-            <button class="secondary" id="backFromDueBtn">↩️ Kembali ke Utama</button>
+            <button class="secondary" id="backFromDueBtn">↩️ RETURN</button>
         </div>
     `;
 }
@@ -2437,9 +2441,9 @@ function renderJatuhTempo() {
                         </div>
                         ${totalData > 10 ? `<div class="small-note" style="text-align:center;color:#1e5a7d;margin-top:4px;">📌 Menampilkan 10 data terbaru dari ${totalData} catatan</div>` : ''}
 
-                        <div class="total-bold"><span>Total biaya  :</span><span id="totalBiayaDisplay">${formatRupiah(totalBiaya)}</span></div>
+                        <div class="total-bold"><span>Total biaya  ----------------------->>>:</span><span id="totalBiayaDisplay">${formatRupiah(totalBiaya)}</span></div>
                         <div class="small-note">* Setiap baris = transaksi belanja pada tanggal tertentu.</div>
-                        <button class="secondary" id="backFromBiayaBtn">↩️ Kembali</button>
+                        <button class="secondary" id="backFromBiayaBtn">↩️ RETURN</button>
                     </div>
                 `;
         }
@@ -2549,7 +2553,7 @@ function renderJatuhTempo() {
                     <p>Download semua transaksi + history belanja bulan ini</p>
                     ${isEmpty ? '<p style="color:#b91c1c;font-weight:600;">⚠️ Belum ada data untuk diekspor</p>' : ''}
                     <button class="btn-excel" id="exportExcelBtn" ${isEmpty ? 'disabled style="opacity:0.5;"' : ''}>📊 Download Laporan Excel</button>
-                    <button class="secondary" id="backKirimBtn">↩️ Kembali</button>
+                    <button class="secondary" id="backKirimBtn">↩️ RETURN</button>
                 </div>`;
         }
 
@@ -2657,7 +2661,7 @@ function renderJatuhTempo() {
                         <div class="transaction-list">${txList}</div>
                         ${totalData > 5000 ? `<div class="small-note" style="text-align:center;color:#1e5a7d;margin-top:4px;">📌 Menampilkan 5000 data dengan No Nota terkecil dari ${totalData} transaksi</div>` : ''}
                         ${editFormHtml}
-                        <button class="secondary" id="backFromEditBtn">↩️ Kembali ke Utama</button>
+                        <button class="secondary" id="backFromEditBtn">↩️ RETURN</button>
                         </div>
                 `;
         }
@@ -2859,7 +2863,7 @@ function renderJatuhTempo() {
 
                         <button id="saveSettingsBtn" class="btn-success">💾 SIMPAN PENGATURAN</button>
                         <button id="resetSettingsBtn" class="btn-warning">🔄 Reset ke Default</button>
-                        <button class="secondary" id="backFromSettingsBtn">↩️ Kembali ke Utama</button>
+                        <button class="secondary" id="backFromSettingsBtn">↩️ RETURN</button>
                     </div>
                 `;
         }
@@ -2960,7 +2964,7 @@ function renderJatuhTempo() {
                             <button class="secondary" id="restoreBelBtn">🧺 Restore Belanja</button> -->
                         </div>
                         <!-- <div class="small-note" style="margin-top:10px;">💡 Gunakan "Restore Uji" untuk mengembalikan data contoh.</div> -->
-                        <button class="secondary" id="backFromManageBtn" style="margin-top:12px;">↩️ Kembali ke Utama</button>
+                        <button class="secondary" id="backFromManageBtn" style="margin-top:12px;">↩️ RETURN</button>
                     </div>
                 `;
         }
