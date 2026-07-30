@@ -354,7 +354,7 @@
         .jasa-table td {
             border: 2px solid #729fda;
             padding: 8px 6px;
-            text-align: left;
+            text-align: center;
             vertical-align: top;
         }
 
@@ -438,21 +438,21 @@
 
         .belanja-history-table {
             width: 165%;
-            font-size: 0.75 rem;
+            font-size: 0.95 rem;
             border-collapse: collapse;
             margin-top: 10px;
         }
 
         .belanja-history-table th,
         .belanja-history-table td {
-            border: 1px solid #e2e8f0;
+            border: 1px solid #486a96;
             padding: 6px 3px;
             text-align: left;
             vertical-align: top;
         }
 
         .belanja-history-table th {
-            background: #eef2ff;
+            background: #cbd4f3;
             font-weight: 600;
         }
 
@@ -559,7 +559,7 @@
         }
 
         .transaction-item .nota-detail {
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: #64748b;
         }
 
@@ -2329,6 +2329,7 @@ function renderJatuhTempo() {
                     <tr style="background:#1e5a7d;color:white;">
                         <th style="padding:8px 6px;text-align:left;">No Nota</th>
                         <th style="padding:8px 6px;text-align:left;">Nama</th>
+                        
                         <th style="padding:8px 6px;text-align:right;">Tagihan</th>
                         <th style="padding:8px 6px;text-align:center;">Status</th>
                     </tr>
@@ -2586,7 +2587,7 @@ function renderJatuhTempo() {
                 txList += `
                         <div class="transaction-item" data-nota="${t.noNota}">
                             <div>
-                                <div class="nota-info">📄 No. ${t.noNota}</div>
+                                <div class="nota-info">No. ${t.noNota}</div>
                                 <div class="nota-detail">${escapeHtml(t.nama)} • ${formatRupiah(t.totalHarga)}</div>
                             </div>
                             <div>
