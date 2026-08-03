@@ -10,9 +10,9 @@
     
     <!-- ===== TAMBAHKAN LIBRARY localForage UNTUK INDEXEDDB ===== -->
     <script src="https://cdn.jsdelivr.net/npm/localforage@1.10.0/dist/localforage.min.js">
-    </script>
+    </script>    
     
-    <style>
+    <style>  
         /* ===== SEMUA STYLE SAMA PERSIS SEPERTI SEBELUMNYA ===== */
         * {
             margin: 0;
@@ -44,7 +44,7 @@
             flex-direction: column;
             position: relative;
             border: 2px solid #dc2626;
-        }  
+        }   
 
 
     
@@ -126,7 +126,7 @@
         }
 
         .input-group {
-            margin-bottom: 3px;
+            margin-bottom: 4px;
         }
 
         .input-group label {
@@ -143,7 +143,7 @@
             padding: 10px 10px;
             border-radius: 15px;
             border: 20px ;
-            /*border: 2px solid #cbd5e1; */ 
+            /*border: 2px solid #cbd5e1; */  
 
             font-size: 0.9rem;
             background: rgb(179, 234, 178);
@@ -169,10 +169,10 @@
         }
 
         .detail-card {
-           /* background: #f8fafc; 
-            border-radius: 20px; */
-            padding: 2px 10px;
-            margin: 3px 0;
+           background: #f8fafc; 
+            border-radius: 20px; 
+            padding: 1px 5px;
+            margin: 1px 0;  
         }
 
         .total-bold {
@@ -183,7 +183,7 @@
             padding-top: 10px;
             display: block;
             justify-content: space-between;
-        }
+        }      
 
         button {
             background: #1e5a7d;
@@ -197,12 +197,13 @@
             margin-top: 12px;
             cursor: pointer;
             transition: 0.2s;
-            /*border: 2px solid #dc2626; */            
+            border: 2px solid #dc2626;             
         }
 
-        button:active {
+        button:hover {
             background: #0e3e58;
-            transform: scale(0.80);
+            transform: scale(1.2); 
+            
         }
 
         button.secondary {
@@ -212,7 +213,7 @@
         }
         button.secondary:active {
             background: #64748b;
-            font-weight: 700;
+            font-weight: 700;  
             
         }
 
@@ -265,7 +266,7 @@
         }
 
         .small-note {
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             color: #5b6e8c;
             margin-top: 4px;
         }
@@ -346,16 +347,17 @@
         .jasa-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 10px 0;
+            margin: 15px 0;
             font-size: 0.82rem;
         }
 
         .jasa-table th,
         .jasa-table td {
-            border: 2px solid #729fda;
+            border: 2px solid #07cb5f;
             padding: 8px 6px;
             text-align: center;
             vertical-align: top;
+            border-radius: 30px;
         }
 
         .jasa-table th {
@@ -672,7 +674,7 @@
             }
         }
 
-        .modal-box {
+    .modal-box {
             background: linear-gradient(145deg, #ffffff, #f0f4f8);
             border-radius: 30px;
             padding: 40px 35px;
@@ -759,7 +761,7 @@
             min-width: 120px;
             max-width: 200px;
             padding: 10px 2px;
-           /* padding: 14px 24px;  */
+            padding: 14px 24px;  
             border-radius: 50px;
             font-weight: 700;
             font-size: 0.85rem;
@@ -807,7 +809,7 @@
             color: #151a21;
             background: #d6e0ef;
             border-top: 1px solid #eef2f8;
-        }
+        }   
 
         .due-item {
             background: #fef2f2;
@@ -852,8 +854,8 @@
             overflow-y: auto;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 8px;
-            margin: 3px 0;
+            padding: 1px;
+            margin: 1px 0;
         }
 
         .settings-preview {
@@ -1004,7 +1006,7 @@
             display: none;
         }
 
-        @media (max-width: 800px) {
+        @media (max-width: 700px) {
             .menu-grid {
                 grid-template-columns: repeat(2, 1fr);
                 padding: 2px;
@@ -1028,6 +1030,8 @@
             .main-content {
                 padding: 14px 12px;
                 max-height: 65vh;
+                overflow-y: auto;
+                
             }
             .panel {
                 padding: 14px;
@@ -1044,7 +1048,7 @@
             }
             .biaya-item .biaya-nama {
                 min-width: 70px;
-                font-size: 0.7rem;
+                font-size: 0.7rem;    
             }
             .biaya-item input {
                 min-width: 70px;
@@ -1080,11 +1084,11 @@
                 min-width: 100px;
                 padding: 12px 18px;
                 font-size: 0.8rem;
-            }
-        }
-    </style>
+            }    
+        }       
+    </style>   
 </head>
-<body>
+<body>  
 
     <div class="app-container">
         <!-- ===== ICON SETTINGS ===== -->
@@ -2433,7 +2437,7 @@ function renderJatuhTempo() {
                                 <div class="biaya-item"><span class="biaya-nama">👕 Jasa Setrika</span><input type="number" id="belanja_setrika" placeholder="Rp" value="0" step="1000"></div>
                                 <div class="biaya-item"><span class="biaya-nama">📦 Lain-lain</span><input type="number" id="belanja_lain" placeholder="Rp" value="0" step="1000"></div>
                             </div>
-                            <button id="simpanBelanjaBtn">💾 SIMPAN BELANJA</button>
+                            <button id="simpanBelanjaBtn">💾 SIMPAN</button>
                         </div>
 
                         <div class="label" style="margin:6px 0 4px;">📋 RIWAYAT BELANJA (${showingCount} dari ${totalData})</div>
@@ -2559,7 +2563,7 @@ function renderJatuhTempo() {
                     <div class="panel-title"> 🛜 EKSPOR KE EXCEL</div>
                     <p>Download semua transaksi + history belanja bulan ini</p>
                     ${isEmpty ? '<p style="color:#b91c1c;font-weight:600;">⚠️ Belum ada data untuk diekspor</p>' : ''}
-                    <button class="btn-excel" id="exportExcelBtn" ${isEmpty ? 'disabled style="opacity:0.5;"' : ''}>📊 Download Laporan Excel</button>
+                    <button class="btn-excel" id="exportExcelBtn" ${isEmpty ? 'disabled style="opacity:0.5;"' : ''}>📊 Download Excel</button>
                     <button class="secondary" id="backKirimBtn">↩️ RETURN</button>
                 </div>`;
         }
@@ -2958,7 +2962,7 @@ function renderJatuhTempo() {
                             <h4 style="color: #0369a1; margin-bottom: 8px;">📂 RESTORE DARI FILE BACKUP</h4>
                             <p style="font-size: 0.8rem; color: #075985; margin-bottom: 10px;">Pilih file backup JSON untuk memulihkan data</p>
                             <input type="file" id="restoreFileInput" accept=".json" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #bae6fd; background: white;">
-                            <button id="restoreFromFileBtn" class="btn-success" style="margin-top: 8px;">📤 Restore dari File</button>
+                            <button id="restoreFromFileBtn" class="btn-success" style="margin-top: 8px;">📤 Restore </button>
                         </div>
                         
                         <div class="btn-group">
