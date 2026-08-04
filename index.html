@@ -10,9 +10,9 @@
     
     <!-- ===== TAMBAHKAN LIBRARY localForage UNTUK INDEXEDDB ===== -->
     <script src="https://cdn.jsdelivr.net/npm/localforage@1.10.0/dist/localforage.min.js">
-    </script>    
+    </script>
     
-    <style>  
+    <style>
         /* ===== SEMUA STYLE SAMA PERSIS SEPERTI SEBELUMNYA ===== */
         * {
             margin: 0;
@@ -31,7 +31,7 @@
             align-items: center;
         }  
 
-        .app-container {
+    .app-container {
             max-width: 800px;
             width: 100%;
             margin: 0 auto;
@@ -126,7 +126,7 @@
         }
 
         .input-group {
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .input-group label {
@@ -143,7 +143,7 @@
             padding: 10px 10px;
             border-radius: 15px;
             border: 20px ;
-            /*border: 2px solid #cbd5e1; */  
+            /*border: 2px solid #cbd5e1; */ 
 
             font-size: 0.9rem;
             background: rgb(179, 234, 178);
@@ -168,11 +168,11 @@
             font-weight: 500;
         }
 
-        .detail-card {
-           background: #f8fafc; 
-            border-radius: 20px; 
+        .detaill-card {
+           /* background: #f8fafc; 
+            border-radius: 20px; */
             padding: 1px 5px;
-            margin: 1px 0;  
+            margin: 1px 0;
         }
 
         .total-bold {
@@ -183,7 +183,7 @@
             padding-top: 10px;
             display: block;
             justify-content: space-between;
-        }      
+        }
 
         button {
             background: #1e5a7d;
@@ -197,13 +197,12 @@
             margin-top: 12px;
             cursor: pointer;
             transition: 0.2s;
-            border: 2px solid #dc2626;             
+            /*border: 2px solid #dc2626; */            
         }
 
-        button:hover {
+        button:active {
             background: #0e3e58;
-            transform: scale(1.2); 
-            
+            transform: scale(0.80);
         }
 
         button.secondary {
@@ -213,7 +212,7 @@
         }
         button.secondary:active {
             background: #64748b;
-            font-weight: 700;  
+            font-weight: 700;
             
         }
 
@@ -266,7 +265,7 @@
         }
 
         .small-note {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #5b6e8c;
             margin-top: 4px;
         }
@@ -347,17 +346,16 @@
         .jasa-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 15px 0;
+            margin: 10px 0;
             font-size: 0.82rem;
         }
 
         .jasa-table th,
         .jasa-table td {
-            border: 2px solid #07cb5f;
+            border: 2px solid #729fda;
             padding: 8px 6px;
             text-align: center;
             vertical-align: top;
-            border-radius: 30px;
         }
 
         .jasa-table th {
@@ -674,7 +672,7 @@
             }
         }
 
-    .modal-box {
+        .modal-box {
             background: linear-gradient(145deg, #ffffff, #f0f4f8);
             border-radius: 30px;
             padding: 40px 35px;
@@ -761,7 +759,7 @@
             min-width: 120px;
             max-width: 200px;
             padding: 10px 2px;
-            padding: 14px 24px;  
+           /* padding: 14px 24px;  */
             border-radius: 50px;
             font-weight: 700;
             font-size: 0.85rem;
@@ -809,7 +807,7 @@
             color: #151a21;
             background: #d6e0ef;
             border-top: 1px solid #eef2f8;
-        }   
+        }
 
         .due-item {
             background: #fef2f2;
@@ -1048,7 +1046,7 @@
             }
             .biaya-item .biaya-nama {
                 min-width: 70px;
-                font-size: 0.7rem;    
+                font-size: 0.7rem;
             }
             .biaya-item input {
                 min-width: 70px;
@@ -1084,11 +1082,11 @@
                 min-width: 100px;
                 padding: 12px 18px;
                 font-size: 0.8rem;
-            }    
-        }       
-    </style>   
+            }
+        }
+    </style>
 </head>
-<body>  
+<body>
 
     <div class="app-container">
         <!-- ===== ICON SETTINGS ===== -->
@@ -1098,7 +1096,7 @@
 
         <div class="header" id="appHeader">
             <h1 id="headerTitle">🏢 BESTIE LAUNDRY</h1>
-            <p id="headerTagline">✨ Manajemen Transaksi & Biaya ✨</p>
+            <p id="headerTagline">Manajemen Transaksi & Biaya ver.20</p>
         </div>
 
         <div class="main-content" id="appRoot"></div>
@@ -1170,7 +1168,7 @@
 
         let appSettings = {
             namaLaundry: "BESTIE LAUNDRY",
-            tagline: "Manajemen Transaksi & Biaya",
+            tagline: "Manajemen Transaksi & Biaya ver.20",
             footerText: "© Bestie Laundry Since 2019"
         };
 
@@ -1369,7 +1367,7 @@
             const footerEl = document.getElementById("appFooter");
 
             if (titleEl) titleEl.textContent = appSettings.namaLaundry || "BESTIE LAUNDRY";
-            if (taglineEl) taglineEl.textContent = appSettings.tagline || "✨ Manajemen Transaksi & Biaya ✨";
+            if (taglineEl) taglineEl.textContent = appSettings.tagline || "Manajemen Transaksi & Biaya Ver.20";
             if (footerEl) footerEl.textContent = appSettings.footerText || "© Bestie Laundry Since 2019";
         }
 
@@ -2437,7 +2435,7 @@ function renderJatuhTempo() {
                                 <div class="biaya-item"><span class="biaya-nama">👕 Jasa Setrika</span><input type="number" id="belanja_setrika" placeholder="Rp" value="0" step="1000"></div>
                                 <div class="biaya-item"><span class="biaya-nama">📦 Lain-lain</span><input type="number" id="belanja_lain" placeholder="Rp" value="0" step="1000"></div>
                             </div>
-                            <button id="simpanBelanjaBtn">💾 SIMPAN</button>
+                            <button id="simpanBelanjaBtn">💾 SIMPAN BELANJA</button>
                         </div>
 
                         <div class="label" style="margin:6px 0 4px;">📋 RIWAYAT BELANJA (${showingCount} dari ${totalData})</div>
@@ -2563,7 +2561,7 @@ function renderJatuhTempo() {
                     <div class="panel-title"> 🛜 EKSPOR KE EXCEL</div>
                     <p>Download semua transaksi + history belanja bulan ini</p>
                     ${isEmpty ? '<p style="color:#b91c1c;font-weight:600;">⚠️ Belum ada data untuk diekspor</p>' : ''}
-                    <button class="btn-excel" id="exportExcelBtn" ${isEmpty ? 'disabled style="opacity:0.5;"' : ''}>📊 Download Excel</button>
+                    <button class="btn-excel" id="exportExcelBtn" ${isEmpty ? 'disabled style="opacity:0.5;"' : ''}>📊 Download Laporan Excel</button>
                     <button class="secondary" id="backKirimBtn">↩️ RETURN</button>
                 </div>`;
         }
@@ -2851,7 +2849,7 @@ function renderJatuhTempo() {
                         
                         <div class="settings-preview" id="settingsPreview">
                             <h2 id="settingsPreviewTitle">${escapeHtml(appSettings.namaLaundry || "BESTIE LAUNDRY")}</h2>
-                            <p id="settingsPreviewTagline">${escapeHtml(appSettings.tagline || "✨ Manajemen Transaksi & Biaya ✨")}</p>
+                            <p id="settingsPreviewTagline">${escapeHtml(appSettings.tagline || "Manajemen Transaksi & Biaya ver.20")}</p>
                         </div>
 
                         <div class="settings-field">
@@ -2891,7 +2889,7 @@ function renderJatuhTempo() {
                     previewTitle.textContent = namaInput?.value || "BESTIE LAUNDRY";
                 }
                 if (previewTagline) {
-                    previewTagline.textContent = taglineInput?.value || "✨ Manajemen Transaksi & Biaya ✨";
+                    previewTagline.textContent = taglineInput?.value || "Manajemen Transaksi & Biaya ver.20";
                 }
             }
 
@@ -2909,7 +2907,7 @@ function renderJatuhTempo() {
                 }
 
                 appSettings.namaLaundry = nama || "BESTIE LAUNDRY";
-                appSettings.tagline = tagline || "✨ Manajemen Transaksi & Biaya ✨";
+                appSettings.tagline = tagline || "Manajemen Transaksi & Biaya ver.20";
                 appSettings.footerText = footer || "© Bestie Laundry Since 2019";
 
                 saveSettings();
@@ -2921,7 +2919,7 @@ function renderJatuhTempo() {
             document.getElementById("resetSettingsBtn")?.addEventListener("click", function() {
                 if (confirm("Yakin ingin mereset pengaturan ke default?")) {
                     appSettings.namaLaundry = "BESTIE LAUNDRY";
-                    appSettings.tagline = "✨ Manajemen Transaksi & Biaya ✨";
+                    appSettings.tagline = "Manajemen Transaksi & Biaya ver.20";
                     appSettings.footerText = "© Bestie Laundry Since 2019";
                     saveSettings();
                     updateHeaderUI();
@@ -2962,7 +2960,7 @@ function renderJatuhTempo() {
                             <h4 style="color: #0369a1; margin-bottom: 8px;">📂 RESTORE DARI FILE BACKUP</h4>
                             <p style="font-size: 0.8rem; color: #075985; margin-bottom: 10px;">Pilih file backup JSON untuk memulihkan data</p>
                             <input type="file" id="restoreFileInput" accept=".json" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #bae6fd; background: white;">
-                            <button id="restoreFromFileBtn" class="btn-success" style="margin-top: 8px;">📤 Restore </button>
+                            <button id="restoreFromFileBtn" class="btn-success" style="margin-top: 8px;">📤 Restore dari File</button>
                         </div>
                         
                         <div class="btn-group">
