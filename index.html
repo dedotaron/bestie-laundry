@@ -2448,7 +2448,7 @@ function renderJatuhTempo() {
                                 <tbody id="historyBelanjaBody">${historyRows}</tbody>
                             </table>
                         </div>
-                        ${totalData > 10 ? `<div class="small-note" style="text-align:center;color:#1e5a7d;margin-top:4px;">📌 Menampilkan 10 data terbaru dari ${totalData} catatan</div>` : ''}
+                        ${totalData > 500 ? `<div class="small-note" style="text-align:center;color:#1e5a7d;margin-top:4px;">📌 Menampilkan 10 data terbaru dari ${totalData} catatan</div>` : ''}
 
                         <div class="total-bold"><span>Total biaya  ----------------------->>>:</span><span id="totalBiayaDisplay">${formatRupiah(totalBiaya)}</span></div>
                         <div class="small-note">* Setiap baris = transaksi belanja pada tanggal tertentu.</div>
@@ -2469,7 +2469,7 @@ function renderJatuhTempo() {
                 const tbody = document.getElementById("historyBelanjaBody");
                 if (!tbody) return;
                 const belanjaBulanIni = getBelanjaThisMonth();
-                const displayBelanja = [...belanjaBulanIni].reverse().slice(0, 10);
+                const displayBelanja = [...belanjaBulanIni].reverse().slice(0, 500);
 
                 let html = '';
                 displayBelanja.forEach((b, idx) => {
