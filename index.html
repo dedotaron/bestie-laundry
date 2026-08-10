@@ -26,12 +26,12 @@
             background: #1a1919;
             padding: 10px;
             min-height: 100vh;
-            display: flexbox;
+            display: flex;
             justify-content: center;
             align-items: center;
         }  
 
-    .app-container {
+        .app-container {
             max-width: 800px;
             width: 100%;
             margin: 0 auto;
@@ -39,7 +39,7 @@
             border-radius: 15px;
             box-shadow: 0 20px 35px -21px rgba(0, 0, 0, 0.2);
             overflow: hidden;
-            min-height: 65vh;
+            min-height: 75vh;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -63,11 +63,11 @@
         }
 
         .settings-icon:hover {
-            transform: rotate(30deg) scale(1.1);
+            transform: rotate(90deg) scale(0.1);
         }
 
         .settings-icon:active {
-            transform: rotate(60deg) scale(0.9);
+            transform: rotate(90deg) scale(0.1);
             background: rgba(255, 255, 255, 0.4);
         }
 
@@ -168,10 +168,11 @@
             font-weight: 500;
         }
 
-        .detaill-card {
+        .detail-card {
            /* background: #f8fafc; 
-            border-radius: 20px; */
-            padding: 1px 5px;
+            border-radius: 20px; 
+            padding: 1px 1px; */
+            font-size: 0.90rem;
             margin: 1px 0;
         }
 
@@ -343,12 +344,12 @@
             margin-top: 4px;
         }
 
-        .jasa-table {
+        /* .jasa-table { 
             width: 100%;
             border-collapse: collapse;
             margin: 10px 0;
             font-size: 0.82rem;
-        }
+        } 
 
         .jasa-table th,
         .jasa-table td {
@@ -356,29 +357,30 @@
             padding: 8px 6px;
             text-align: center;
             vertical-align: top;
-        }
+        }  */
 
         .jasa-table th {
             background: #f1f5f9;
-            font-weight: 600;
+            font-weight: 400;
             color: #1e293b;
-        }
+            
+        }  
 
         .jasa-table input,
         .jasa-table select {
             width: 100%;
             padding: 6px 6px;
-            border-radius: 1px;
-            border: 1px solid #cbd5e1;
+            border-radius: 2px;
+            border: 1px solid #cbd5e1; 
             font-size: 0.8rem;
             background: white;
-        }
+        }  
 
         .subtotal-cell {
-            font-weight: 600;
+            font-weight: 400;
             color: #0f3b5c;
-            text-align: right;
-        }
+            text-align: center;
+        }  
 
         .transaction-table {
             width: 145%;
@@ -388,9 +390,9 @@
 
         .transaction-table td,
         .transaction-table th {
-            padding: 8px 4px;
+            padding: 8px 4px; 
             border-bottom: 1px solid #e2e8f0;   
-            text-align: left;
+            text-align: center;
         }  
 
         .text-right {
@@ -400,7 +402,7 @@
         }
 
         .biaya-grid {
-            display: flex;
+            display: block;
             flex-direction: column;
             gap: 8px;
             margin-top: 6px;
@@ -410,12 +412,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #d7e6f5;
-            padding: 10px 14px;
-            border-radius: 16px;
+            background: #3cad54;
+            padding: 20px 140px;
+            border-radius: 10px;
             border: 1px solid #e2e8f0;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 38px;
         }
 
         .biaya-item .biaya-nama {
@@ -1045,11 +1047,11 @@
                 padding: 8px 10px;
             }
             .biaya-item .biaya-nama {
-                min-width: 70px;
+                min-width: 200px;
                 font-size: 0.7rem;
             }
             .biaya-item input {
-                min-width: 70px;
+                min-width: 40px;
                 padding: 6px 8px;
                 font-size: 0.75rem;
             }
@@ -1584,7 +1586,7 @@
 
             excelRows.push([]);
             excelRows.push(['=== DATA BELANJA BULAN INI ===']);
-            excelRows.push(['Tanggal', 'Sabun Cuci', 'Plastik', 'Parfum', 'Karbol', 'Listrik', 'Gaz', 'Setrika',
+            excelRows.push(['Tanggal', 'Sabun', 'Plastik', 'Parfum', 'Karbol', 'Listrik', 'Gaz Lpg', 'Setrika',
                 'Lain-lain', 'TOTAL'
             ]);
 
@@ -2037,11 +2039,17 @@
                         <div class="input-group"><input type="text" placeholder="Nama konsumen" id="namaCustomer" value="${escapeHtml(orderForm.nama)}"></div>
                         <div class="input-group"><input type="date" id="tglOrder" value="${orderForm.tglOrder}"></div>
                         <div class="input-group"><input type="number" id="tempoHari" value="${orderForm.tempoHari}"></div>
-                        <div class="detail-card">Estimasi Selesai ---> <small id="estimasiPreview">${tglSelesaiPreview}</small></div>
-                        <div class="detail-card">Jam Masuk order ----> <small>${nowTime}</small></div>
-                        <table class="jasa-table"><thead><tr><th>Jenis Jasa</th><th>Kg</th><th>Rp/Kg</th><th>Subtotal</th></tr></thead>
+                        <!-- <div class="detail-card">Estimasi Selesai..<small id="estimasiPreview">${tglSelesaiPreview}</small></div>
+                        <div class="detail-card">Jam Masuk order..<small>${nowTime}</small></div> -->
+                        
+                        <div class="panel">
+                            <tr><td>Selesai :<small id="estimasiPreview">${tglSelesaiPreview}</small></td></tr>
+                            <tr><td>  ----------  Jam order :<small>${nowTime}</small></td></tr>
+                        </div>
+                                                
+                        <table class="jasa-table"><thead><tr><th>Jasa</th><th>kg</th><th>Rp/kg</th><th>Subtotal</th></tr></thead>
                         <tbody id="jasaTableBody">${rowsHtml}</tbody></table>
-                        <div class="total-bold">Total--------------> : <span id="grandTotalDisplay">${formatRupiah(grandTotal)}</span></div>
+                        <div class="total-bold">Total--------------------> : <span id="grandTotalDisplay">${formatRupiah(grandTotal)}</span></div>
                         <div class="input-group">  
                            <select id="cashBank"> 
                                 <option value="Cash" ${orderForm.cashBank==="Cash"?"selected":""}>Cash</option> 
@@ -2232,7 +2240,8 @@
                         tr.cashBank = metode;
                         saveData();
                         showToast(`✅ Pembayaran sukses. Sisa: ${formatRupiah(tr.sisa)}`, 'success');
-                        navigateTo("utama");
+                       // navigateTo("utama"); // tetap di halaman bayar untuk bayar nota lain
+                        navigateTo("bayar");  // refresh halaman bayar
                     }
                 });
             });
@@ -2275,7 +2284,7 @@
 
             return `<div class="panel">
         
-                    <div class="panel-title">🔍 TOTAL TRANSAKSI (${totalData})</div>        
+                    <div class="panel-title">🔍 DISPLAY TRANSAKSI (${totalData})</div>        
                     <div class="small-note" style="margin-bottom:8px;">⬇️ Scroll untuk melihat lebih banyak | Diurutkan berdasarkan No Nota</div>
                     <div class="scrollable-table-container"> 
                         <table class="transaction-table">
@@ -2434,7 +2443,7 @@ function renderJatuhTempo() {
                                 <div class="biaya-item"><span class="biaya-nama">👕 Jasa Setrika</span><input type="number" id="belanja_setrika" placeholder="Rp" value="0" step="1000"></div>
                                 <div class="biaya-item"><span class="biaya-nama">📦 Lain-lain</span><input type="number" id="belanja_lain" placeholder="Rp" value="0" step="1000"></div>
                             </div>
-                            <button id="simpanBelanjaBtn">💾 SIMPAN BELANJA</button>
+                            <button id="simpanBelanjaBtn">💾 SIMPAN</button>
                         </div>
 
                         <div class="label" style="margin:6px 0 4px;">📋 RIWAYAT BELANJA (${showingCount} dari ${totalData})</div>
