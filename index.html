@@ -101,18 +101,18 @@
         .main-content {
             flex: 1; 
             padding: 14px 12px;
-          background: #fefefe; 
-          overflow-y: auto; 
+            background: #fefefe; 
+            overflow-y: auto; 
             max-height: 65vh;
         }
 
         .panel {
-            background: #efede9;
+            background: #e8e7e5;   
             border-radius: 28px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
             padding: 20px;
             margin-top: 8px;
-            border: 2px solid #819fc4;
+          /*  border: 2px solid #819fc4; */
         
         }  
 
@@ -126,7 +126,9 @@
         }
 
         .input-group {
-            margin-bottom: 3px;
+            margin-bottom: 5px;
+            margin-top: 10px;
+            
         }
 
         .input-group label {
@@ -141,9 +143,9 @@
         .input-group select {
             width: 50%;
             padding: 10px 10px;
-            border-radius: 15px;
+            border-radius: 10px;
             border: 20px ;
-            /*border: 2px solid #cbd5e1; */ 
+            border: 2px solid #cbd5e1;  
 
             font-size: 0.9rem;
             background: rgb(179, 234, 178);
@@ -396,7 +398,7 @@
         }  
 
         .text-right {
-            text-align: right;
+            text-align: center;
             font-size: 0.65rem;
             
         }
@@ -412,10 +414,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #3cad54;
+            background: #eeefee;
             padding: 20px 140px;
             border-radius: 10px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #86b0e7;
             flex-wrap: wrap;
             gap: 38px;
         }
@@ -447,16 +449,23 @@
 
         .belanja-history-table th,
         .belanja-history-table td {
-            border: 1px solid #486a96;
-            padding: 6px 3px;
+           /* border: 1px solid #486a96;
+          /* padding: 6px 3px;
+            text-align: center;
+            vertical-align: top; */
+            padding: 10px 8px;
             text-align: left;
-            vertical-align: top;
+            /*vertical-align: middle; */
+            font-size: 0.65rem
+
         }
 
-        .belanja-history-table th {
+   /*     .belanja-history-table th {
             background: #cbd4f3;
             font-weight: 600;
-        }
+            color: #0f2b3f;
+        } */
+
 
         .hapus-belanja {
             background: none;
@@ -479,7 +488,7 @@
             overflow-y: auto;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            margin: 10px 0;
+            margin: 10px 0;  
         }    
 
         .scrollable-table-container table {
@@ -493,10 +502,10 @@
         }
 
         .scrollable-table-container thead th {
-            background: #1e5a7d;
+            background: #436ee3;
             color: white;
             padding: 10px 6px;
-            border: 1px solid #1a4a6a;
+            border: 1px solid #5c90b3;
         }
 
         .scrollable-table-container tbody td {
@@ -1100,6 +1109,7 @@
             <h1 id="headerTitle">🏢 BESTIE LAUNDRY</h1>
             <p id="headerTagline">Manajemen Transaksi & Biaya ver.20</p>
         </div>
+        
 
         <div class="main-content" id="appRoot"></div>
 
@@ -2043,13 +2053,13 @@
                         <div class="detail-card">Jam Masuk order..<small>${nowTime}</small></div> -->
                         
                         <div class="panel">
-                            <tr><td>Selesai :<small id="estimasiPreview">${tglSelesaiPreview}</small></td></tr>
-                            <tr><td>  ----------  Jam order :<small>${nowTime}</small></td></tr>
+                            <tr><td>Estimasi Selesai :<small id="estimasiPreview">${tglSelesaiPreview}</small></td></tr>
+                            <tr><td>  ---Masuk order :<small>${nowTime}</small></td></tr>
                         </div>
                                                 
                         <table class="jasa-table"><thead><tr><th>Jasa</th><th>kg</th><th>Rp/kg</th><th>Subtotal</th></tr></thead>
                         <tbody id="jasaTableBody">${rowsHtml}</tbody></table>
-                        <div class="total-bold">Total--------------------> : <span id="grandTotalDisplay">${formatRupiah(grandTotal)}</span></div>
+                        <div class="total-small">Total order masuk : <span id="grandTotalDisplay">${formatRupiah(grandTotal)}</span></div>
                         <div class="input-group">  
                            <select id="cashBank"> 
                                 <option value="Cash" ${orderForm.cashBank==="Cash"?"selected":""}>Cash</option> 
@@ -2458,7 +2468,7 @@ function renderJatuhTempo() {
                         </div>
                         ${totalData > 500 ? `<div class="small-note" style="text-align:center;color:#1e5a7d;margin-top:4px;">📌 Menampilkan 10 data terbaru dari ${totalData} catatan</div>` : ''}
 
-                        <div class="total-bold"><span>Total biaya  ------------->:</span><span id="totalBiayaDisplay">${formatRupiah(totalBiaya)}</span></div>
+                        <div class="total-small"><span>Total biaya :</span><span id="totalBiayaDisplay">${formatRupiah(totalBiaya)}</span></div>
                         <div class="small-note">* Setiap baris = transaksi belanja pada tanggal tertentu.</div>
                         <button class="secondary" id="backFromBiayaBtn">↩️ RETURN</button>
                     </div>
@@ -2647,7 +2657,7 @@ function renderJatuhTempo() {
                             <table class="jasa-table"><thead><tr><th>Jenis Jasa</th><th>Kg</th><th>Rp/Kg</th><th>Subtotal</th></tr></thead>
                             <tbody id="editJasaTableBody">${jasaRows}</tbody></table>
                             <div class="total-bold">Total : <span id="editGrandTotal">${formatRupiah(editData.totalHarga || 0)}</span></div>
-                           <div class="input-group"><label>💳 Metode Bayar</label> 
+                            <div class="input-group"><label>💳 Metode Bayar</label> 
                                 <select id="editCashBank">
                                     <option value="Cash" ${editData.cashBank === "Cash" ? "selected" : ""}>Cash</option>
                                     <option value="Bank" ${editData.cashBank === "Bank" ? "selected" : ""}>Bank</option> 
