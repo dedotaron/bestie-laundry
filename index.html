@@ -2370,12 +2370,14 @@
         }
 
         // ============================================================
-        // 24. RENDER BIAYA OPERASIONAL
+        // 24. RENDER BIAYA OPERASIONAL - TAMPILKAN SEMUA DATA BELANJA
         // ============================================================
         function renderBiayaOperasional() {
-            const belanjaBulanIni = getBelanjaThisMonth();
+            // [UBAH] Ambil SEMUA data belanja, bukan hanya bulan ini
+            const semuaBelanja = daftarBelanja;
 
-            const displayBelanja = [...belanjaBulanIni].reverse().slice(0, 10);
+            // Tampilkan semua data, urutkan dari yang terbaru
+            const displayBelanja = [...semuaBelanja].reverse().slice(0, 500);
 
             let historyRows = '';
             displayBelanja.forEach((b, idx) => {
@@ -2399,13 +2401,14 @@
                     `;
             });
 
-            if (belanjaBulanIni.length === 0) {
-                historyRows = '<tr><td colspan="12" style="text-align:center;">Belum ada catatan belanja bulan ini</td></tr>';
+            if (semuaBelanja.length === 0) {
+                historyRows = '<tr><td colspan="12" style="text-align:center;">Belum ada catatan belanja</td></tr>';
             }
 
-            const totalBiaya = getTotalBiayaBulanIni();
-            const totalData = belanjaBulanIni.length;
-            const showingCount = Math.min(10, totalData);
+            // [UBAH] Total biaya SEMUA, bukan bulan ini
+            const totalBiaya = getTotalBiayaAllTime();
+            const totalData = semuaBelanja.length;
+            const showingCount = Math.min(500, totalData);
 
             return `
                     <div class="panel">
@@ -2429,7 +2432,7 @@
                         </div>
 
                         <div class="label" style="margin:6px 0 4px;">📋 RIWAYAT BELANJA (${showingCount} dari ${totalData})</div>
-                        <div class="small-note" style="margin-bottom:8px;">⬇️ Scroll untuk melihat lebih banyak</div>
+                        <div class="small-note" style="margin-bottom:8px;">⬇️ Scroll untuk melihat lebih banyak | Menampilkan semua data belanja</div>
                         <div class="scrollable-table-container">
                             <table class="belanja-history-table">
                                 <thead>
@@ -2438,9 +2441,9 @@
                                 <tbody id="historyBelanjaBody">${historyRows}</tbody>
                             </table>
                         </div>
-                        ${totalData > 500 ? `<div class="small-note" style="text-align:center;color:#1e5a7d;margin-top:4px;">📌 Menampilkan 10 data terbaru dari ${totalData} catatan</div>` : ''}
+                        ${totalData > 500 ? `<div class="small-note" style="text-align:center;color:#1e5a7d;margin-top:4px;">📌 Menampilkan 500 data terbaru dari ${totalData} catatan</div>` : ''}
 
-                        <div class="total-small"><span>Total biaya bulan ini :</span><span id="totalBiayaDisplay">${formatRupiah(totalBiaya)}</span></div>
+                        <div class="total-small"><span>Total biaya SEMUA :</span><span id="totalBiayaDisplay">${formatRupiah(totalBiaya)}</span></div>
                         <div class="small-note">* Setiap baris = transaksi belanja pada tanggal tertentu.</div>
                         <button class="secondary" id="backFromBiayaBtn">↩️ RETURN</button>
                     </div>
@@ -2449,7 +2452,8 @@
 
         function attachBiayaEvents() {
             function updateTotalDisplay() {
-                const newTotal = getTotalBiayaBulanIni();
+                // [UBAH] Gunakan total biaya SEMUA
+                const newTotal = getTotalBiayaAllTime();
                 const totalSpan = document.getElementById("totalBiayaDisplay");
                 if (totalSpan) totalSpan.innerText = formatRupiah(newTotal);
                 renderHistoryTable();
@@ -2458,8 +2462,9 @@
             function renderHistoryTable() {
                 const tbody = document.getElementById("historyBelanjaBody");
                 if (!tbody) return;
-                const belanjaBulanIni = getBelanjaThisMonth();
-                const displayBelanja = [...belanjaBulanIni].reverse().slice(0, 500);
+                // [UBAH] Ambil SEMUA data belanja
+                const semuaBelanja = daftarBelanja;
+                const displayBelanja = [...semuaBelanja].reverse().slice(0, 500);
 
                 let html = '';
                 displayBelanja.forEach((b, idx) => {
@@ -2482,7 +2487,7 @@
                             </tr>
                         `;
                 });
-                if (belanjaBulanIni.length === 0) {
+                if (semuaBelanja.length === 0) {
                     html = '<tr><td colspan="12" style="text-align:center;">Belum ada catatan belanja</td></tr>';
                 }
                 tbody.innerHTML = html;
