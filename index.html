@@ -1,6 +1,3 @@
-<!--html file name bestie _18.html 
-   system file menyimpan di localforage bukan di local storage device -->
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -1226,18 +1223,51 @@
             return transactions.filter(t => t.tglSelesai === today);
         }
 
-        function getMonthlyStats() {
-            const monthlyTx = getTransactionsThisMonth();
-            let totalKg = 0,
-                totalOmzet = 0,
-                totalLunas = 0;
-            monthlyTx.forEach(tx => {
+        // ===== [UBAH] Fungsi statistik ALL TIME (semua data) =====
+        function getAllTimeStats() {
+            // Hitung untuk SEMUA transaksi yang ada
+            let totalKg = 0, totalOmzet = 0, totalLunas = 0;
+            const totalTransaksi = transactions.length;
+            const totalNotaLunas = transactions.filter(t => t.status === "Lunas").length;
+            
+            transactions.forEach(tx => {
                 const kgTotal = tx.detailJasa.reduce((sum, j) => sum + (j.kg || 0), 0);
                 totalKg += kgTotal;
                 totalOmzet += tx.totalHarga;
                 if (tx.status === "Lunas") totalLunas += tx.totalHarga;
             });
-            return { totalKg, totalOmzet, totalLunas };
+
+            // Data pelanggan unik
+            const pelangganSet = new Set();
+            transactions.forEach(tx => {
+                if (tx.nama) pelangganSet.add(tx.nama.trim().toLowerCase());
+            });
+            const totalPelanggan = pelangganSet.size;
+
+            return { 
+                totalKg, 
+                totalOmzet, 
+                totalLunas, 
+                totalTransaksi,
+                totalNotaLunas,
+                totalPelanggan
+            };
+        }
+
+        // ===== [TAMBAH] Fungsi untuk total biaya all time =====
+        function getTotalBiayaAllTime() {
+            let total = 0;
+            for (const b of daftarBelanja) {
+                total += (b.sabun_cuci || 0);
+                total += (b.plastik || 0);
+                total += (b.parfum || 0);
+                total += (b.karbol || 0);
+                total += (b.listrik || 0);
+                total += (b.Gaz || 0);
+                total += (b.setrika || 0);
+                total += (b.lain_lain || 0);
+            }
+            return total;
         }
 
         const formatRupiah = (angka) => {
@@ -1383,70 +1413,9 @@
         }
 
         // ============================================================
-        // 7. FUNGSI DUMMY (untuk tombol Restore Uji)
+        // 7. FUNGSI DUMMY (untuk tombol Restore Uji) - [DIHAPUS] 
         // ============================================================
-        function initDummyData() {
-            const today = new Date().toISOString().slice(0, 10);
-            const tglSelesai1 = new Date();
-            tglSelesai1.setDate(tglSelesai1.getDate() + 3);
-            const tglSelesai2 = new Date();
-            tglSelesai2.setDate(tglSelesai2.getDate() + 2);
-
-            transactions = [{
-                id: "INV-001",
-                noNota: "6500",
-                nama: "DEDY KUSNINDAR",
-                tempoHari: 3,
-                tglOrder: today,
-                timeMasuk: "12:00:00",
-                tglSelesai: tglSelesai1.toISOString().slice(0, 10),
-                detailJasa: [
-                    { namaJasa: "Cuci Setrika (CL)", kg: 3, hargaPerKg: 10000, total: 30000 },
-                    { namaJasa: "Setrika Saja", kg: 3, hargaPerKg: 13333, total: 40000 },
-                    { namaJasa: "Bed Cover (BC)", kg: 2, hargaPerKg: 12500, total: 25000 }
-                ],
-                totalHarga: 95000,
-                bayar: 95000,
-                sisa: 0,
-                status: "Lunas",
-                cashBank: "Cash",
-                keterangan: "Lunas"
-            }, {
-                id: "INV-002",
-                noNota: "6501",
-                nama: "RINA WATI",
-                tempoHari: 2,
-                tglOrder: today,
-                timeMasuk: "14:30:00",
-                tglSelesai: tglSelesai2.toISOString().slice(0, 10),
-                detailJasa: [
-                    { namaJasa: "Cuci Kiloan", kg: 5, hargaPerKg: 8000, total: 40000 },
-                    { namaJasa: "Setrika Saja", kg: 2, hargaPerKg: 10000, total: 20000 }
-                ],
-                totalHarga: 60000,
-                bayar: 30000,
-                sisa: 30000,
-                status: "Belum Lunas",
-                cashBank: "Cash",
-                keterangan: "DP 30.000"
-            }];
-
-            daftarBelanja = [{
-                id: "belanja_1",
-                tgl_belanja: today,
-                sabun_cuci: 65000,
-                plastik: 10000,
-                parfum: 100000,
-                karbol: 10000,
-                listrik: 20000,
-                Gaz: 20000,
-                setrika: 20000,
-                lain_lain: 20000
-            }];
-
-            saveData();
-            saveBelanja();
-        }     
+        // Fungsi initDummyData dihapus karena diminta hapus data dummy
 
         // ============================================================
         // 8. MODAL MESSAGE BOX
@@ -1588,20 +1557,22 @@
             });
 
             excelRows.push([]);
-            excelRows.push(['=== RINGKASAN BULAN INI ===']);
-            const stats = getMonthlyStats();
+            excelRows.push(['=== RINGKASAN SEMUA DATA ===']);
+            const stats = getAllTimeStats();
             excelRows.push(['Total Omzet', formatRupiah(stats.totalOmzet)]);
             excelRows.push(['Total Berat', stats.totalKg.toFixed(2) + ' Kg']);
             excelRows.push(['Total Lunas', formatRupiah(stats.totalLunas)]);
+            excelRows.push(['Total Transaksi', stats.totalTransaksi]);
+            excelRows.push(['Total Pelanggan', stats.totalPelanggan]);
 
             excelRows.push([]);
-            excelRows.push(['=== DATA BELANJA BULAN INI ===']);
+            excelRows.push(['=== DATA BELANJA SEMUA ===']);
             excelRows.push(['Tanggal', 'Sabun', 'Plastik', 'Parfum', 'Karbol', 'Listrik', 'Gaz Lpg', 'Setrika',
                 'Lain-lain', 'TOTAL'
             ]);
 
-            const belanjaBulanIni = getBelanjaThisMonth();
-            belanjaBulanIni.forEach(b => {
+            const sortedBelanja = [...daftarBelanja].sort((a, b) => (a.tgl_belanja || '').localeCompare(b.tgl_belanja || ''));
+            sortedBelanja.forEach(b => {
                 const total = (b.sabun_cuci || 0) + (b.plastik || 0) + (b.parfum || 0) + (b.karbol || 0) + (b
                     .listrik || 0) + (b.Gaz || 0) + (b.setrika || 0) + (b.lain_lain || 0);
                 excelRows.push([
@@ -1619,8 +1590,9 @@
             });
 
             excelRows.push([]);
-            excelRows.push(['TOTAL BIAYA BULAN INI', formatRupiah(getTotalBiayaBulanIni())]);
-            excelRows.push(['OMZET BERSIH', formatRupiah(stats.totalOmzet - getTotalBiayaBulanIni())]);
+            const totalBiayaAll = getTotalBiayaAllTime();
+            excelRows.push(['TOTAL BIAYA SEMUA', formatRupiah(totalBiayaAll)]);
+            excelRows.push(['OMZET BERSIH', formatRupiah(stats.totalOmzet - totalBiayaAll)]);
 
             excelRows.push([]);
             excelRows.push(['Dibuat pada:', new Date().toLocaleString('id-ID')]);
@@ -1932,8 +1904,9 @@
         // 19. RENDER MENU UTAMA
         // ============================================================
         function renderMenuUtama() {
-            const stats = getMonthlyStats();
-            const totalBiaya = getTotalBiayaBulanIni();
+            // [UBAH] Gunakan getAllTimeStats() untuk semua data
+            const stats = getAllTimeStats();
+            const totalBiaya = getTotalBiayaAllTime();
             const omzetBersih = stats.totalOmzet - totalBiaya;
             const dueCount = getDueTransactions().length;
             const isDatabaseEmpty = transactions.length === 0 && daftarBelanja.length === 0;
@@ -1976,18 +1949,19 @@
                     </div>
                     ` : `
                     <div class="panel">
-                        <div class="panel-title">📊 RINGKASAN BULAN INI</div>
+                        <div class="panel-title">📊 ANALISA DATA</div>
                         <div class="stat-card">
                             <div class="info-row"><span class="label">📦 Total Berat (Kg) :</span><span class="value">${stats.totalKg.toFixed(2)} Kg</span></div>
                             <div class="info-row"><span class="label">💰 Total Omzet :</span><span class="value">${formatRupiah(stats.totalOmzet)}</span></div>
                             <div class="info-row"><span class="label">✅ Total Lunas :</span><span class="value">${formatRupiah(stats.totalLunas)}</span></div>
                             <div class="info-row"><span class="label">📉 Total Biaya :</span><span class="value" style="color:#b91c1c;">${formatRupiah(totalBiaya)}</span></div>
                             <div class="info-row"><span class="label">📈 Omzet Bersih :</span><span class="value" style="color:#0f5c3f;">${formatRupiah(omzetBersih)}</span></div>
+                            <div class="info-row"><span class="label">🧾 Total Transaksi :</span><span class="value">${stats.totalTransaksi} nota</span></div>
+                            <div class="info-row"><span class="label">👤 Total Pelanggan :</span><span class="value">${stats.totalPelanggan} orang</span></div>
+                            <div class="info-row"><span class="label">✅ Nota Lunas :</span><span class="value">${stats.totalNotaLunas} dari ${stats.totalTransaksi}</span></div>
                         </div>
-                        <div class="info-row"><span class="label">📅 Periode :</span><span class="value">${getCurrentMonth().replace('-', ' / ')}</span></div>
-                        <div class="info-row"><span class="label">🧾 Jumlah Transaksi :</span><span class="value">${getTransactionsThisMonth().length} nota</span></div>
-                        <div class="info-row"><span class="label">📋 Total Transaksi :</span><span class="value">${transactions.length} nota</span></div>
                         ${dueCount > 0 ? `<div class="info-row"><span class="label" style="color:#dc2626;">⏰ Jatuh Tempo Hari Ini :</span><span class="value" style="color:#dc2626;font-weight:700;">${dueCount} nota</span></div>` : ''}
+                        <div class="small-note" style="margin-top:8px;">📌 Analisa berdasarkan semua data yang tersimpan (ALL TIME)</div>
                     </div>
                     `}
                 `;
@@ -2316,83 +2290,80 @@
         // ============================================================
         // 23. RENDER JATUH TEMPO
         // ============================================================
-        // ============================================================
-// [UBAH] FUNGSI RENDER JATUH TEMPO - Tambah detail no nota, nama, tagihan
-// ============================================================
-function renderJatuhTempo() {
-    const dueTransactions = getDueTransactions();
-    const today = getTodayDate();
+        function renderJatuhTempo() {
+            const dueTransactions = getDueTransactions();
+            const today = getTodayDate();
 
-    let dueHtml = '';
-    if (dueTransactions.length === 0) {
-        dueHtml = `
-            <div class="no-due">
-                <span class="icon">🎉</span>
-                <p>Tidak ada transaksi yang jatuh tempo hari ini</p>
-                <p style="font-size:0.8rem;margin-top:8px;">Tanggal: ${today}</p>
-            </div>
-        `;
-    } else {
-        const sortedDue = [...dueTransactions].sort((a, b) => {
-            const numA = parseInt(a.noNota) || 0;
-            const numB = parseInt(b.noNota) || 0;
-            return numA - numB;
-        });
+            let dueHtml = '';
+            if (dueTransactions.length === 0) {
+                dueHtml = `
+                    <div class="no-due">
+                        <span class="icon">🎉</span>
+                        <p>Tidak ada transaksi yang jatuh tempo hari ini</p>
+                        <p style="font-size:0.8rem;margin-top:8px;">Tanggal: ${today}</p>
+                    </div>
+                `;
+            } else {
+                const sortedDue = [...dueTransactions].sort((a, b) => {
+                    const numA = parseInt(a.noNota) || 0;
+                    const numB = parseInt(b.noNota) || 0;
+                    return numA - numB;
+                });
 
-        dueHtml = `<div style="margin-bottom:12px;background:#fef2f2;border-radius:16px;padding:12px;text-align:center;">
-            <span style="font-weight:700;color:#dc2626;">⏰ ${sortedDue.length} nota jatuh tempo hari ini (${today})</span>
-        </div>
-        <div class="scrollable-table-container" style="max-height:600px;">`;
+                dueHtml = `<div style="margin-bottom:12px;background:#fef2f2;border-radius:16px;padding:12px;text-align:center;">
+                    <span style="font-weight:700;color:#dc2626;">⏰ ${sortedDue.length} nota jatuh tempo hari ini (${today})</span>
+                </div>
+                <div class="scrollable-table-container" style="max-height:600px;">`;
 
-        // Tampilkan dalam bentuk tabel sederhana
-        dueHtml += `
-            <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
-                <thead>
-                    <tr style="background:#1e5a7d;color:white;">
-                        <th style="padding:8px 6px;text-align:left;">No Nota</th>
-                        <th style="padding:8px 6px;text-align:left;">Nama</th>
-                        
-                        <th style="padding:8px 6px;text-align:right;">Tagihan</th>
-                        <th style="padding:8px 6px;text-align:center;">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-        `;
+                // Tampilkan dalam bentuk tabel sederhana
+                dueHtml += `
+                    <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+                        <thead>
+                            <tr style="background:#1e5a7d;color:white;">
+                                <th style="padding:8px 6px;text-align:left;">No Nota</th>
+                                <th style="padding:8px 6px;text-align:left;">Nama</th>
+                                
+                                <th style="padding:8px 6px;text-align:right;">Tagihan</th>
+                                <th style="padding:8px 6px;text-align:center;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
 
-        sortedDue.forEach((t) => {
-            dueHtml += `
-                <tr style="border-bottom:1px solid #e2e8f0;">
-                    <td style="padding:8px 6px;font-weight:600;">${t.noNota}</td>
-                    <td style="padding:8px 6px;">${escapeHtml(t.nama)}</td>
-                    <td style="padding:8px 6px;text-align:right;font-weight:600;color:#dc2626;">${formatRupiah(t.totalHarga)}</td>
-                    <td style="padding:8px 6px;text-align:center;">
-                        ${t.status === 'Lunas' ? 
-                            '<span class="status-badge status-lunas">Lunas</span>' : 
-                            '<span class="status-badge status-due">Belum Lunas</span>'
-                        }
-                    </td>
-                </tr>
+                sortedDue.forEach((t) => {
+                    dueHtml += `
+                        <tr style="border-bottom:1px solid #e2e8f0;">
+                            <td style="padding:8px 6px;font-weight:600;">${t.noNota}</td>
+                            <td style="padding:8px 6px;">${escapeHtml(t.nama)}</td>
+                            <td style="padding:8px 6px;text-align:right;font-weight:600;color:#dc2626;">${formatRupiah(t.totalHarga)}</td>
+                            <td style="padding:8px 6px;text-align:center;">
+                                ${t.status === 'Lunas' ? 
+                                    '<span class="status-badge status-lunas">Lunas</span>' : 
+                                    '<span class="status-badge status-due">Belum Lunas</span>'
+                                }
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                dueHtml += `
+                        </tbody>
+                    </table>
+                </div>`;
+            }
+
+            return `
+                <div class="panel">
+                    <div class="panel-title">⏰ JATUH TEMPO HARI INI</div>
+                    <div class="detail-card" style="background:#fef9e7;border-left:4px solid #f59e0b;">
+                        <div class="info-row"><span class="label">📅 Hari Ini :</span><span class="value">${today}</span></div>
+                        <div class="info-row"><span class="label">📋 Total Jatuh Tempo :</span><span class="value" style="color:#dc2626;font-weight:700;">${dueTransactions.length} nota</span></div>
+                    </div>
+                    ${dueHtml}
+                    <button class="secondary" id="backFromDueBtn">↩️ RETURN</button>
+                </div>
             `;
-        });
-
-        dueHtml += `
-                </tbody>
-            </table>
-        </div>`;
-    }
-
-    return `
-        <div class="panel">
-            <div class="panel-title">⏰ JATUH TEMPO HARI INI</div>
-            <div class="detail-card" style="background:#fef9e7;border-left:4px solid #f59e0b;">
-                <div class="info-row"><span class="label">📅 Hari Ini :</span><span class="value">${today}</span></div>
-                <div class="info-row"><span class="label">📋 Total Jatuh Tempo :</span><span class="value" style="color:#dc2626;font-weight:700;">${dueTransactions.length} nota</span></div>
-            </div>
-            ${dueHtml}
-            <button class="secondary" id="backFromDueBtn">↩️ RETURN</button>
-        </div>
-    `;
-}
+        }
 
         function attachJatuhTempoEvents() {
             document.getElementById("backFromDueBtn")?.addEventListener("click", () => navigateTo("utama"));
@@ -2403,6 +2374,7 @@ function renderJatuhTempo() {
         // ============================================================
         function renderBiayaOperasional() {
             const belanjaBulanIni = getBelanjaThisMonth();
+
             const displayBelanja = [...belanjaBulanIni].reverse().slice(0, 10);
 
             let historyRows = '';
@@ -2468,7 +2440,7 @@ function renderJatuhTempo() {
                         </div>
                         ${totalData > 500 ? `<div class="small-note" style="text-align:center;color:#1e5a7d;margin-top:4px;">📌 Menampilkan 10 data terbaru dari ${totalData} catatan</div>` : ''}
 
-                        <div class="total-small"><span>Total biaya :</span><span id="totalBiayaDisplay">${formatRupiah(totalBiaya)}</span></div>
+                        <div class="total-small"><span>Total biaya bulan ini :</span><span id="totalBiayaDisplay">${formatRupiah(totalBiaya)}</span></div>
                         <div class="small-note">* Setiap baris = transaksi belanja pada tanggal tertentu.</div>
                         <button class="secondary" id="backFromBiayaBtn">↩️ RETURN</button>
                     </div>
@@ -2577,7 +2549,7 @@ function renderJatuhTempo() {
             const isEmpty = transactions.length === 0 && daftarBelanja.length === 0;
             return `<div class="panel">
                     <div class="panel-title"> 🛜 EKSPOR KE EXCEL</div>
-                    <p>Download semua transaksi + history belanja bulan ini</p>
+                    <p>Download semua transaksi + history belanja</p>
                     ${isEmpty ? '<p style="color:#b91c1c;font-weight:600;">⚠️ Belum ada data untuk diekspor</p>' : ''}
                     <button class="btn-excel" id="exportExcelBtn" ${isEmpty ? 'disabled style="opacity:0.5;"' : ''}>📊 Download Excel</button>
                     <button class="secondary" id="backKirimBtn">↩️ RETURN</button>
@@ -2602,8 +2574,7 @@ function renderJatuhTempo() {
                 return numA - numB;
             });
 
-            //const displayData = sortedTx.slice(0, 5000);//
-            const displayData = sortedTx;  // Tampilkan semua
+            const displayData = sortedTx;
             displayData.forEach(t => {
                 const statusClass = t.status === "Lunas" ? "status-lunas" : "status-belum";
                 txList += `
@@ -2987,10 +2958,7 @@ function renderJatuhTempo() {
                         </div>
                         <div class="btn-group" style="margin-top:8px;">
                             <button class="btn-backup" id="backupJsonBtn">💾 Backup JSON</button>
-                         <!--   <button class="secondary" id="restoreTxBtn">📋 Restore Transaksi</button>
-                            <button class="secondary" id="restoreBelBtn">🧺 Restore Belanja</button> -->
                         </div>
-                        <!-- <div class="small-note" style="margin-top:10px;">💡 Gunakan "Restore Uji" untuk mengembalikan data contoh.</div> -->
                         <button class="secondary" id="backFromManageBtn" style="margin-top:12px;">↩️ RETURN</button>
                     </div>
                 `;
@@ -3011,92 +2979,11 @@ function renderJatuhTempo() {
             // RESET ALL DATA
             document.getElementById("resetDbBtn")?.addEventListener("click", resetAllData);
 
-            // RESTORE UJI (DUMMY)
-            document.getElementById("restoreDbBtn")?.addEventListener("click", function() {
-                if (!confirm("Anda akan mengembalikan data uji coba. Data saat ini akan DITIMPA. Lanjutkan?"))
-                    return;
-                initDummyData();
-                showToast('✅ Data uji coba berhasil direstore!', 'success');
-                renderApp();
-            });
-
             // BACKUP EXCEL
             document.getElementById("backupExcelBtn")?.addEventListener("click", backupDataToExcel);
 
             // BACKUP JSON
             document.getElementById("backupJsonBtn")?.addEventListener("click", backupDataToJson);
-
-            // RESTORE TRANSAKSI SAJA
-            document.getElementById("restoreTxBtn")?.addEventListener("click", function() {
-                if (!confirm("Restore data transaksi uji coba? (Data belanja tidak berubah)")) return;
-                const today = new Date().toISOString().slice(0, 10);
-                const tglSelesai1 = new Date();
-                tglSelesai1.setDate(tglSelesai1.getDate() + 3);
-                const tglSelesai2 = new Date();
-                tglSelesai2.setDate(tglSelesai2.getDate() + 2);
-                transactions = [{
-                    id: "INV-001",
-                    noNota: "6500",
-                    nama: "DEDY KUSNINDAR",
-                    tempoHari: 3,
-                    tglOrder: today,
-                    timeMasuk: "12:00:00",
-                    tglSelesai: tglSelesai1.toISOString().slice(0, 10),
-                    detailJasa: [
-                        { namaJasa: "Cuci Setrika (CL)", kg: 3, hargaPerKg: 10000, total: 30000 },
-                        { namaJasa: "Setrika Saja", kg: 3, hargaPerKg: 13333, total: 40000 },
-                        { namaJasa: "Bed Cover (BC)", kg: 2, hargaPerKg: 12500, total: 25000 }
-                    ],
-                    totalHarga: 95000,
-                    bayar: 95000,
-                    sisa: 0,
-                    status: "Lunas",
-                    cashBank: "Cash",
-                    keterangan: "Lunas"
-                }, {
-                    id: "INV-002",
-                    noNota: "6501",
-                    nama: "RINA WATI",
-                    tempoHari: 2,
-                    tglOrder: today,
-                    timeMasuk: "14:30:00",
-                    tglSelesai: tglSelesai2.toISOString().slice(0, 10),
-                    detailJasa: [
-                        { namaJasa: "Cuci Kiloan", kg: 5, hargaPerKg: 8000, total: 40000 },
-                        { namaJasa: "Setrika Saja", kg: 2, hargaPerKg: 10000, total: 20000 }
-                    ],
-                    totalHarga: 60000,
-                    bayar: 30000,
-                    sisa: 30000,
-                    status: "Belum Lunas",
-                    cashBank: "Cash",
-                    keterangan: "DP 30.000"
-                }];
-                saveData();
-                showToast('✅ Transaksi berhasil direstore!', 'success');
-                renderApp();
-            });
-
-            // RESTORE BELANJA SAJA
-            document.getElementById("restoreBelBtn")?.addEventListener("click", function() {
-                if (!confirm("Restore data belanja uji coba? (Data transaksi tidak berubah)")) return;
-                const today = new Date().toISOString().slice(0, 10);
-                daftarBelanja = [{
-                    id: "belanja_1",
-                    tgl_belanja: today,
-                    sabun_cuci: 65000,
-                    plastik: 10000,
-                    parfum: 100000,
-                    karbol: 10000,
-                    listrik: 20000,
-                    Gaz: 20000,
-                    setrika: 20000,
-                    lain_lain: 20000
-                }];
-                saveBelanja();
-                showToast('✅ Belanja berhasil direstore!', 'success');
-                renderApp();
-            });
 
             document.getElementById("backFromManageBtn")?.addEventListener("click", () => navigateTo("utama"));
         }
@@ -3133,7 +3020,6 @@ function renderJatuhTempo() {
         window.playPingSound = playPingSound;
         window.showLoading = showLoading;
         window.hideLoading = hideLoading;
-        window.initDummyData = initDummyData;
         window.showModal = showModal;
         window.closeModal = closeModal;
 
